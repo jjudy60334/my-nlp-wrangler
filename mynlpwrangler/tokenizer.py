@@ -1,10 +1,19 @@
 from typing import Callable
 
 import jieba
+import pandas as pd
 
+class Tokenizer:
+    def __init__(
+            self, stop_word_path: str = None,
+            token_function: Callable = None):
+        """
+        param:
+        stop_word_path:the path of stop word
+        sentences_column:name of columns which should be tokenized
+        new_generate_column:name of new column
 
-class Tokenizer():
-    def __init__(self, stop_word_path: str = None, token_function: Callable = None):
+        """
         self._stop_word_path = stop_word_path
         self._token_function = token_function
 
@@ -23,7 +32,12 @@ class Tokenizer():
             seg_list = "/".join(self._token_function(text))
         else:
             seg_list = "/".join(jieba.cut(text, cut_all=False))
-        for textword in seg_list.split('/'):
-            if not (textword.strip() in stopwords_list) and len(textword.strip()) > 1:
-                wordlist.append(textword)
+        for word in seg_list.split('/'):
+            if not (word.strip() in stopwords_list) and len(word.strip()) > 1:
+                wordlist.append(word)
         return ' '.join(wordlist)
+
+    def tokenize_dataframe(self, df: pd.DataFrame, sentences_column: str = 'sentences',
+                           new_generate_column: str = 'tokenized_word'):
+        df[new_generate_column] = df[sentences_column].apply(self.tokenize_text)
+        return df
