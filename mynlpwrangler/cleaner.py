@@ -35,11 +35,6 @@ class ArticleCleaner():
         line = re.sub('[%s]' % re.escape(string.punctuation), '', line)
         return line
 
-    @property
-    def clean_data(self):
-        return self._clean_data_fun
-
-    @clean_data.setter()
     def set_clean_data(self, clean_data_fun: Callable):
         self._clean_data_function = clean_data_fun
         return self._clean_data_function

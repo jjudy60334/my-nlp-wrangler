@@ -25,11 +25,6 @@ class Tokenizer:
                 self._stop_word_path, 'r', encoding='UTF-8').readlines()]
         return stopwords_list
 
-    @property
-    def tokenize_sentence(self):
-        return self._token_function
-
-    @tokenize_sentence.setter()
     def set_tokenize_sentence(self, tokenize_function: Callable):
         self._token_function = tokenize_function
 
