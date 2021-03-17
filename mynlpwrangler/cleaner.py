@@ -16,19 +16,19 @@ class ArticleCleaner():
         self._cleaned_col = cleaned_col
         self._clean_data_function = None
 
-    def is_url(self, url: str):
+    def remove_url(self, setence: str):
         """
-        remove the url from the post
+        remove the url from the setence
         """
         try:
-            result = urlparse(url)
+            result = urlparse(setence)
             return all([result.scheme, result.netloc])
         except ValueError:
             return False
 
     def remove_punctuation(self, line: str):
         """
-        remove punctuation from the post
+        remove punctuation from the sentence
         """
         rule = re.compile("[^\u4e00-\u9fa5^.^a-z^A-Z]")
         line = rule.sub(' ', line)
@@ -36,23 +36,44 @@ class ArticleCleaner():
         return line
 
     def set_clean_data(self, clean_data_fun: Callable):
+        """ set customer  clean sentence function for dataframe
+
+        Parameters
+        ----------
+        clean_data_fun: Callable
+            customized function for clean data
+
+        Returns
+        -------
+        customized function
+
+        """
         self._clean_data_function = clean_data_fun
         return self._clean_data_function
 
-    def clean_data(self, df: pd.DataFrame, **kwargs):
+    def clean_data(self, setence_df: pd.DataFrame, **kwargs):
         """
-        for nlp clean data,it included remove url and puntuation
+        for nlp clean data,it includ:
+        1.remove url
+        2.remove puntuation
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        setence_df with the a new clean sentence without url and puctuation data.
         """
         if not self._clean_data_function:
-            df[self._col] = df[self._col].replace('\r', '', regex=True)
-            df = df.dropna(subset=[self._col])
-            df[self._cleaned_col] = [
-                ' '.join(y for y in x.split() if not self.is_url(y)) for x in df[self._col]]
-            df[self._cleaned_col] = df[self._cleaned_col].replace('\n', ' ', regex=True)
-            df[self._cleaned_col] = df[self._cleaned_col].apply(self.remove_punctuation)
-            df = df.replace(r'^\s*$', np.nan, regex=True)
-            df = df.dropna(subset=[self._cleaned_col])
-            df.drop_duplicates(subset=[self._cleaned_col], keep='last', inplace=True)
+            setence_df[self._col] = setence_df[self._col].replace('\r', '', regex=True)
+            setence_df = setence_df.dropna(subset=[self._col])
+            setence_df[self._cleaned_col] = [
+                ' '.join(y for y in x.split() if not self.remove_url(y)) for x in setence_df[self._col]]
+            setence_df[self._cleaned_col] = setence_df[self._cleaned_col].replace('\n', ' ', regex=True)
+            setence_df[self._cleaned_col] = setence_df[self._cleaned_col].apply(self.remove_punctuation)
+            setence_df = setence_df.replace(r'^\s*$', np.nan, regex=True)
+            setence_df = setence_df.dropna(subset=[self._cleaned_col])
+            setence_df.drop_duplicates(subset=[self._cleaned_col], keep='last', inplace=True)
         else:
-            self._clean_data_function(df, self._col, self._cleaned_col, **kwargs)
-        return df
+            self._clean_data_function(setence_df, self._col, self._cleaned_col, **kwargs)
+        return setence_df

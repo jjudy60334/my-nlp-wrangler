@@ -9,16 +9,19 @@ class Tokenizer:
             self, stop_word_path: str = None
     ):
         """
-        param:
-        stop_word_path:the path of stop word
-        sentences_column:name of columns which should be tokenized
-        new_generate_column:name of new column
+        Parameters
+        ----------
+        stop_word_path:str
+            the path of stop word.
 
         """
         self._stop_word_path = stop_word_path
         self._token_function = None
 
     def read_stop_words(self):
+        """
+        importing the stop word
+        """
         stopwords_list = []
         if self._stop_word_path:
             stopwords_list = [line.strip() for line in open(
@@ -26,9 +29,25 @@ class Tokenizer:
         return stopwords_list
 
     def set_tokenize_sentence(self, tokenize_function: Callable):
+        """
+        set customized tokenize function.
+        """
         self._token_function = tokenize_function
 
     def tokenize_sentence(self, sentences, **kwargs):
+        """Tokenize the sentence,it include:
+        1.tokenize the sentence by jeiba (if there is no custome tokenize function)
+        2.remove stop word
+
+        Parameters
+        ----------
+        sentences:str
+            setence which is cleaned and ready for being tokenized.
+
+        Returns
+        -----
+            the list of word from tokenized sentence.
+        """
         sentences = sentences.lower()
         stopwords_list = self.read_stop_words()
         wordlist = []
@@ -43,5 +62,20 @@ class Tokenizer:
 
     def tokenize_dataframe(self, df: pd.DataFrame, sentences_column: str = 'sentences',
                            new_generate_column: str = 'tokenized_word'):
+        """ Tokenize the DataFrame.
+
+        Parameters
+        ----------
+        df:DataFrame
+            the input dataframe which should contain the cleaned sentences.
+        setences_column:str
+            name of columns which should be tokenized.
+        new_generate_column:str
+            name of new column for tokenized sentence.
+
+        Returns
+        -----
+        The input DataFrame with a new columns which is the tokenized_setence.
+        """
         df[new_generate_column] = df[sentences_column].apply(self.tokenize_sentence)
         return df
