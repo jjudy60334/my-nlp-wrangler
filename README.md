@@ -1,7 +1,7 @@
 # my-nlp-wrangler
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-![Python Version](https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9-brightgreen.svg)]()
+[![Python Version](https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9-brightgreen.svg)](https://pypi.org/project/my-nlp-wrangler/)
 ## Description
 This is a framwork for nlp clean data wrangler
 
@@ -19,7 +19,7 @@ This is a framwork for nlp clean data wrangler
 ## Quick Start
 Installation command: `pip install my-nlp-wrangler`
 
-```py3
+``` py3
 from mynlpwrangler.cleaner import ArticleCleaner
 from mynlpwrangler.tokenizer import Tokenizer
 
@@ -37,3 +37,4 @@ clean_data = ac.clean_data(df=article_df)
 tokenized_column = 'tokenize_word'
 tk=Tokenizer(stop_word_path = f'{os.getcwd()}/stop_word.txt')
 tk.tokenize_dataframe(clean_data,sentences_column = 'content',new_generate_column = tokenized_column)
+```
