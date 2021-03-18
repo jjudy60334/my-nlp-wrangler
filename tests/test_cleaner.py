@@ -18,8 +18,8 @@ class TestCleaner(TestCase):
             "clean_text": ["Hello ", "Hello world", "How do you do "]}
         self._clean_df = pd.DataFrame(self._clean_dict)
 
-    def test_is_url(self):
-        text = self._ac.is_url("Hello, https://www.google.com/")
+    def test_remove_url(self):
+        text = self._ac.remove_url("Hello, https://www.google.com/")
         self.assertFalse(text)
 
     def test_remove_punctuation(self):
