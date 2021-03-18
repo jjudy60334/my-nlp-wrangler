@@ -20,7 +20,7 @@ class Tokenizer:
 
     def read_stop_words(self):
         """
-        importing the stop word
+        import the stop word.
         """
         stopwords_list = []
         if self._stop_word_path:
