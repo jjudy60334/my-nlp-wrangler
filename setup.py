@@ -11,8 +11,7 @@ setuptools_kwargs = {
         "pyflakes==2.2.0",
         "python-dateutil==2.8.1",
         "pytz==2021.1",
-        "six==1.15.0",
-        "long_description_content_type"
+        "six==1.15.0"
     ],
     'zip_safe': False,
 }
