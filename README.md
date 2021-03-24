@@ -3,7 +3,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Python Version](https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9-brightgreen.svg)](https://pypi.org/project/my-nlp-wrangler/)
 ## Description
-This is a framwork for nlp clean data wrangler
+This is a framework for NLP clean data wrangler
 
 這是一個很簡單的nlp清理文字並斷詞的架構。Cleaner主要作為去除標點符號和網址，而Tokenizer會先使用jeiba斷詞，並且移除以定義的stop word(須自行輸入stop word的位置)。
 
